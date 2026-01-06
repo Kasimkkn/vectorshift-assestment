@@ -120,7 +120,9 @@ export const TextNode = ({ id, data }) => {
           position={Position.Left}
           id={`${id}-${variable}`}
           style={{
-            top: `${40 + (index + 1) * (50 / (variables.length + 1))}%`,
+            top: variables.length === 1
+              ? '50%'
+              : `${20 + (index * 60) / (variables.length - 1)}%`,
             background: '#3b82f6',
             width: '10px',
             height: '10px',

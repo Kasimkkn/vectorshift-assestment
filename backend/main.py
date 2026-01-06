@@ -82,6 +82,8 @@ def read_root():
 
 @app.post("/pipelines/parse", response_model=PipelineResponse)
 def parse_pipeline(pipeline: Pipeline):
+    if not pipeline.nodes:
+        raise HTTPException(status_code=400, detail="Pipeline must contain at least one node")
     """
     Parse the pipeline and return statistics.
     
@@ -90,6 +92,7 @@ def parse_pipeline(pipeline: Pipeline):
         - num_edges: Total number of edges in the pipeline
         - is_dag: Boolean indicating if the pipeline is a valid DAG
     """
+    printf("Parsing pipeline with %d nodes and %d edges", len(pipeline.nodes), len(pipeline.edges))
     num_nodes = len(pipeline.nodes)
     num_edges = len(pipeline.edges)
     is_valid_dag = is_dag(pipeline.nodes, pipeline.edges)
